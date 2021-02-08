@@ -28,13 +28,15 @@ class BrainFxxkBox extends React.Component{
 
   handleChange = (event) => {
     if(event.target.name==="brfk"){
-      this.setState({newCode:this.codeConvert(event.target.value)})
+      this.setState({newCode:this.codeConvert(event.target.value)});
       this.setState({[event.target.name]: event.target.value});
     }
-    else if(event.target.name==="newCode"){
+    if(event.target.name==="newCode"){
+      this.setState({brfk:this.codeConvertReverse(event.target.value)});
+      this.setState({[event.target.name]: event.target.value});
     }
     else{
-      this.setState({newCode:this.codeConvert(this.state.brfk)})
+      this.setState({newCode:this.codeConvert(this.state.brfk)});
       this.setState({[event.target.name]: event.target.value});
     }
   }
@@ -51,6 +53,18 @@ class BrainFxxkBox extends React.Component{
     return s;
   }
 
+  codeConvertReverse = (s) =>{
+    s = s.replaceAll(this.state.lt,"<");
+    s = s.replaceAll(this.state.gt,">");
+    s = s.replaceAll(this.state.plus,"+");
+    s = s.replaceAll(this.state.minus,"-");
+    s = s.replaceAll(this.state.dot,".");
+    s = s.replaceAll(this.state.conma,",");
+    s = s.replaceAll(this.state.leftPrts,"[");
+    s = s.replaceAll(this.state.rightPrts,"]");
+    return s;
+  }
+
   render() {
     return (
 
@@ -60,10 +74,13 @@ class BrainFxxkBox extends React.Component{
           brfk:
             <input type="text" name="brfk" value={this.state.brfk} onChange={this.handleChange} />
         </label>
+        
+        <input type="button" value="fxxk(sync)" onClick={this.handleChange}/>
+        <br />
 
         <label>
           new:
-            <input type="text" name="newCode" value={this.state.newCode} onChange={this.handleChange} />
+            <textarea type="text" name="newCode" value={this.state.newCode} onChange={this.handleChange} />
         </label>
 
         <br />
